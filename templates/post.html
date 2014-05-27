@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var enc = $('#contents').html();
+            var pass = $(location).attr('hash').slice(1);
+
+            var dec = sjcl.decrypt(pass, enc);
+
+            $('#contents').html(dec);
+        });
+    </script>
+    <h1>Post {{ post_id }}</h1>
+
+    <div id="contents">
+    {{ contents }}
+    </div>
+{% endblock %}

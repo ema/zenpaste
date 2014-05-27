@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#send').click(function() {
+                var data = $('#contents').val();
+
+                // generate a pseudorandom number and conver it to string
+                var password = Math.random().toString(36);
+
+                var enc = sjcl.encrypt(password, data);
+                
+                $.ajax({
+                    type: "PUT",
+                    url: '/newpost',
+                    contentType: "application/json",
+                    data: enc,
+                    success: function(post_id) {
+                        window.location.replace('/p/' + post_id + '#' + password);
+                    }
+                });
+            });    
+        });
+    </script>
+
+    <textarea rows="10" cols="30" id="contents"></textarea>
+    <button id="send">Go</button>
+{% endblock %}
